@@ -59,7 +59,10 @@ app.post('/sentotp',async (req,res)=>{
         console.log(error)
     }
 })
-
+app.get('/', (req, res) => {
+    res.redirect('https://joshua-muanlal.github.io/X-SHOP-frontend/'); // External redirect
+    // If you meant to redirect within your app, adjust the path accordingly
+  });
 app.use('/',userroute)
 app.use('/',dealerroute)
 app.use('/',deliveryroute)
