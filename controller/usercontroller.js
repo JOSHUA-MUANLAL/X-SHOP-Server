@@ -120,7 +120,7 @@ class usercontroller{
 
         }catch(error){
             console.log(error)
-            res.status(404).json({message:"Unable to fetch product data"})
+            res.status(404).json({message:error})
         }
 
     }
@@ -153,12 +153,13 @@ class usercontroller{
                 })
             }else{
                 console.log("no user found")
+                res.json({message:'No User Found'})
             }
 
 
         }catch(error){
             console.log(error)
-            res.status(404).json({message:"faild to add to list"})
+            res.status(404).json({message:error})
         }
     }
 
@@ -183,7 +184,7 @@ class usercontroller{
 
         }catch(error){
             console.log("failed to remove from wishlist")
-           res.status(404).json({message:"failed to remove "})
+           res.status(404).json({message:error})
         }
     }
 
@@ -206,6 +207,7 @@ class usercontroller{
 
         }catch(error){
             console.log(error)
+            res.json({message:error})
         }
 
     }
@@ -233,7 +235,7 @@ class usercontroller{
             })
             .catch(error=>{
                 console.log(error)
-                res.status(404).json({message:'unable to add'})
+                res.status(404).json({message:error})
             })
             }
             
@@ -309,7 +311,7 @@ class usercontroller{
 
         }catch(error){
             console.log(error)
-             res.status(404).json({message:"error with order"})
+             res.status(404).json({message:error})
         }
     }
 
@@ -364,14 +366,14 @@ class usercontroller{
                 })
                 .catch(error=>{
                     console.log(error)
-                    res.status(404).json({message:"unable to register"})
+                    res.status(404).json({message:error})
                 })
             }
 
 
 
         }catch(error){
-            console.log(error)
+            res.json({message:error})
         }
     }
 
