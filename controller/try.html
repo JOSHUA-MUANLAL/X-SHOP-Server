@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Upload Multiple Images in One Go</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script><!-- Axios for HTTP requests -->
+    <style>
+      .fit{
+        width:50%
+
+      }
+      .carousel {
+        /* Needed for absolute positioning of controls */
+        width: 400px; /* Set desired width */
+        height: 300px; /* Set desired height */
+        overflow: hidden; /* Hide overflow for seamless transitions */
+        border: 1px solid #ccc; /* Optional border */
+        background: #f0f0f0; /* Background color */
+    }
+
+    /* Style for the current image in the carousel */
+    .carousel-image {
+        width: 100%; /* Full width of the carousel */
+        height: 100%; /* Full height of the carousel */
+        background-size: cover; /* Ensure the image covers the entire area */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent repetition */
+    }
+
+    /* Navigation button styles */
+ 
+
+    /* Position for the Previous button */
+  
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Upload Multiple Images in One Go</h1>
+        
+
+        <!-- User Information -->
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" v-model="userId" placeholder="Enter your ID">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="email" placeholder="Enter your email">
+
+        <!-- File Input to Allow Multiple File Selections -->
+        <input type="file" multiple @change="onFileChange">
+
+        <!-- List of Selected Images -->
+        <h2>Selected Images</h2>
+        <div v-if="selectedImages.length === 0">No images selected</div>
+        <div v-for="(file, index) in selectedImages" :key="index">
+            {{ file.name }} <!-- Display file names to confirm selection -->
+        </div>
+
+        <!-- Button to Upload All Images -->
+        <button @click="uploadAllImages">Upload All Images</button>
+        <div>
+          <div class="carousel">
+            <!-- Display the current image -->
+            <div class="carousel-image"
+                 :style="backgroundImageStyle(currentImage)">
+            </div>
+  
+            <!-- Navigation controls -->
+            
+        </div><button @click="previousImage">Previous</button>
+            <button @click="nextImage">Next</button>
+        </div>
+
+
+       
+  </div>
+
+     
+
+
+
+        
+       
+    
+
+    <script>
+    new Vue({
+        el: '#app',
+        data: {
+            userId: '', // User ID input
+            email: '', // Email input
+            selectedImages: [], // Array to store selected files
+            storedImages: [], // Array to store fetched data from the server
+            images:[],
+            currentImageIndex: 0, 
+        }, 
+        computed: {
+          // Get the current image to display
+          currentImage() {
+              return this.images[this.currentImageIndex];
+          }
+      },
+        methods: {
+            onFileChange(event) {
+                const newFiles = Array.from(event.target.files); // Convert FileList to an array
+                this.selectedImages = this.selectedImages.concat(newFiles); // Add new files to the existing array
+            },
+            async uploadAllImages() {
+                if (!this.userId || !this.email) {
+                    alert('Please enter User ID and Email.');
+                    return;
+                }
+
+                if (this.selectedImages.length === 0) {
+                    alert('Please select images to upload.');
+                    return;
+                }
+
+                // Create FormData to send all collected images
+                const formData = new FormData();
+                formData.append('id', this.userId);
+                formData.append('email', this.email);
+
+                // Append each file to FormData
+                this.selectedImages.forEach((file) => {
+                    formData.append('images', file);
+                });
+
+                try {
+                    await axios.post('http://localhost:3000/upload', formData, {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                    });
+
+                    alert('Images uploaded successfully');
+                    this.fetchStoredImages(); // Fetch stored images after upload
+                    this.selectedImages = []; // Clear the array after upload
+                } catch (error) {
+                    console.error('Error uploading images:', error);
+                    alert('Error uploading images.');
+                }
+            },
+            async fetchStoredImages() {
+                try {
+                    const response = await axios.get('http://localhost:3000/images');
+                    this.storedImages = response.data; 
+                    this.images=this.storedImages.images// Store fetched images
+                } catch (error) {
+                    console.error('Error fetching stored images:', error);
+                }
+            },
+            backgroundImageStyle(image) {
+              return {
+                  'background-image': `url(data:${image.mimeType};base64,${image.imageData})`
+              };
+          },
+          nextImage() {
+              this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length; // Loop around
+          },
+          previousImage() {
+              this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length; // Loop around
+          }
+        },
+        mounted() {
+            this.fetchStoredImages(); // Fetch stored images on component mount
+        }
+        
+    });
+    </script>
+</body>
+</html>

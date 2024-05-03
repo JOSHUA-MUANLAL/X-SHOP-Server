@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Carousel in Vue.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> <!-- Vue.js -->
+</head>
+<body>
+    <div id="app">
+        <h1>Image Carousel</h1>
+
+        <!-- Carousel Wrapper -->
+        <div class="carousel">
+            <!-- Display the current image -->
+            <div class="carousel-image"
+                 :style="backgroundImageStyle(currentImage)">
+            </div>
+
+            <!-- Navigation controls -->
+            <button @click="previousImage">Previous</button>
+            <button @click="nextImage">Next</button>
+        </div>
+    </div>
+
+    <style>
+    /* Carousel styles */
+    .carousel {
+        position: relative; /* Needed for absolute positioning of controls */
+        width: 400px; /* Set desired width */
+        height: 300px; /* Set desired height */
+        overflow: hidden; /* Hide overflow for seamless transitions */
+        border: 1px solid #ccc; /* Optional border */
+        background: #f0f0f0; /* Background color */
+    }
+
+    /* Style for the current image in the carousel */
+    .carousel-image {
+        width: 100%; /* Full width of the carousel */
+        height: 100%; /* Full height of the carousel */
+        background-size: cover; /* Ensure the image covers the entire area */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent repetition */
+    }
+
+    /* Navigation button styles */
+    button {
+        position: absolute; /* Absolute positioning for navigation controls */
+        top: 50%; /* Center vertically */
+        transform: translateY(-50%); /* Center vertically */
+        z-index: 10; /* Ensure buttons are on top */
+    }
+
+    /* Position for the Previous button */
+    button:first-of-its-kind {
+        left: 10px; /* Position near the left edge */
+    }
+
+    /* Position for the Next button */
+    button:last-of-its-kind {
+        right: 10px; /* Position near the right edge */
+    }
+    </style>
+
+    <script>
+    new Vue({
+        el: '#app',
+        data: {
+            // Sample images for the carousel
+            images: [
+                {
+                    mimeType: 'image/jpeg',
+                    imageData: '...' // Base64-encoded JPEG image
+                },
+                {
+                    mimeType: 'image/png',
+                    imageData: '...' // Base64-encoded PNG image
+                },
+                {
+                    mimeType: 'image/jpeg',
+                    imageData: '...' // Base64-encoded JPEG image
+                }
+            ],
+            currentImageIndex: 0, // Index to track the current image
+        },
+        computed: {
+            // Get the current image to display
+            currentImage() {
+                return this.images[this.currentImageIndex];
+            }
+        },
+        methods: {
+            backgroundImageStyle(image) {
+                return {
+                    'background-image': `url(data:${image.mimeType};base64,${image.imageData})`
+                };
+            },
+            nextImage() {
+                this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length; // Loop around
+            },
+            previousImage() {
+                this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length; // Loop around
+            }
+        }
+    });
+    </script>
+</body>
+</html>
