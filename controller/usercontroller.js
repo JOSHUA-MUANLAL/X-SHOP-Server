@@ -140,7 +140,7 @@ class usercontroller{
                 item_price:itemtoadd.item_price
             }
 
-            if(userresult && itemtoload){
+            if(userresult && itemtoadd){
                 userresult.wishlist.push(items)
                 console.log(userresult.wishlist)
                 userresult.save()
