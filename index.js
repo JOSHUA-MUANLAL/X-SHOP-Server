@@ -9,6 +9,7 @@ const sendmail=require('./middleware/sendmail')
 
 const dealerroute=require('./routes/dealer')
 const userroute=require('./routes/users')
+const deliveryroute=require('./routes/delivery')
 const {DealerModel}=require('./dbmodel/dealermodel')
 const {UserModel}=require('./dbmodel/usermodel')
 app.use(bodyParser.json());
@@ -61,6 +62,7 @@ app.post('/sentotp',async (req,res)=>{
 
 app.use('/',userroute)
 app.use('/',dealerroute)
+app.use('/',deliveryroute)
 
 
 console.log("woriking")

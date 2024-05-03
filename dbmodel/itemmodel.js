@@ -26,21 +26,15 @@ try{
                 quantity_ordered:Number,
                 address:String,
                 state:String,
-                pin_code:Number
+                pin_code:Number,
+                order_date:Date,
+                order_status:{
+                    type:Boolean,
+                    default:false
+                },
+                delivery_otp:Number
             }
            ],
-           delivered:[
-            {   order_id:String,
-                customer_email:String,
-                customer_name:String,
-                quantity_ordered:Number,
-                address:String,
-                state:String,
-                pin_code:String
-    
-            }
-           ]
-       
       });
       
       

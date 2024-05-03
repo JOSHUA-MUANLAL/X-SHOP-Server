@@ -31,12 +31,19 @@ try{
           }
         ],
         orders:[
-          {
+          { order_id:String,
+            product_name:String,
             product_id:String,
             item_type:String,
             dealerEmail:String,
             item_name:String,
-            item_price:Number
+            item_price:Number,
+            order_date:Date,
+            delivery_otp:Number,
+            order_status:{
+              type:Boolean,
+              default:false
+            }
           }
 
         ]

@@ -127,13 +127,21 @@ class usercontroller{
 
     async addtowishlist(req,res){
         try{
-            let itemtoadd=req.body.item;
+            let id=req.body.item;
             console.log("adding to wishlist")
             let email=req.userdetail.email;
             let userresult=await UserModel.findOne({userEmail:email})
+            let itemtoadd= await ItemModel.findOne({product_id:id})
+            let items={
+                product_id:id,
+                item_type:itemtoadd.item_type,
+                dealerEmail:itemtoadd.dealerEmail,
+                item_name:itemtoadd.item_name,
+                item_price:itemtoadd.item_price
+            }
 
-            if(userresult){
-                userresult.wishlist.push(itemtoadd)
+            if(userresult && itemtoload){
+                userresult.wishlist.push(items)
                 console.log(userresult.wishlist)
                 userresult.save()
                 .then(result=>{
@@ -161,6 +169,7 @@ class usercontroller{
             let email=req.userdetail.email;
 
             let result=await UserModel.findOne({userEmail:email})
+            
 
             if(result){
                 result.wishlist = result.wishlist.filter(obj => obj.product_id !== itemtoremove);
@@ -203,12 +212,21 @@ class usercontroller{
 
     async addtocart(req,res){
         try{
-            let item=req.body.item;
+            let id=req.body.id;
             let email=req.userdetail.email;
 
             let result=await UserModel.findOne({userEmail:email})
-            result.cart.push(item)
-            result.save()
+            let itemtoadd= await ItemModel.findOne({product_id:id})
+            let items={
+                product_id:id,
+                item_type:itemtoadd.item_type,
+                dealerEmail:itemtoadd.dealerEmail,
+                item_name:itemtoadd.item_name,
+                item_price:itemtoadd.item_price
+            }
+            if(result && itemtoadd){
+                result.cart.push(items)
+                result.save()
             .then(response=>{
                 console.log("add to cart")
                 res.status(200).json({message:'add to cart'})
@@ -217,6 +235,8 @@ class usercontroller{
                 console.log(error)
                 res.status(404).json({message:'unable to add'})
             })
+            }
+            
 
         }catch(error){
             console.log(error)
@@ -230,6 +250,7 @@ class usercontroller{
           
 
             let userresult=await UserModel.findOne({userEmail:email})
+            const today = new Date();
 
             for (const element of orders) {
                 console.log(element)
@@ -238,6 +259,7 @@ class usercontroller{
                 if(productResult.item_quantity){
                     productResult.item_quantity=productResult.item_quantity-1
                 }
+                let otp=Math.floor(Math.random() * 900000) + 100000;
                 productResult.orders.push({
                     order_id:uniqueOrderId,
                     customer_email:userresult.userEmail,
@@ -245,19 +267,36 @@ class usercontroller{
                     quantity_ordered:1,
                     address:userresult.address,
                     state:userresult.state,
-                    pin_code:userresult.pin
+                    pin_code:userresult.pin_code,
+                    order_date:today.toLocaleDateString('en-US'),
+                    delivery_otp:otp
                 })
 
                 userresult.orders.push({
+                    order_id:uniqueOrderId,
                     product_id:element.product_id,
                     item_type:element.item_type,
                     dealerEmail:element.dealerEmail,
-                    item_price:element.item_price
+                    item_price:element.item_price,
+                    order_date:today.toLocaleDateString('en-US'),
+                    delivery_otp:otp,
+                
                 })
                 console.log(userresult.orders)
 
                 userresult.cart=userresult.cart.filter(item => item.product_id !== element.product_id);
                 console.log("CART",userresult.cart)
+                let mailOptions={
+                    from:{
+                        name:'JCourse',
+                        address:'joshua00521202021@msijanakpuri.com'
+                    },
+                    to:email,
+                    subject:'Delivery One Time Password',
+                    text:'Delivery OTP',
+                    html:`<b>Dear User ${email}<br> Your OTP for Delivery of <br> Product ID ${element.product_id} <br> Product :- ${element.item_name} is ${otp} </b><br>Please do not share it with anyone else ubless it is the delivery guy`
+                          }
+                    sendmail(mailOptions)
 
 
                 await productResult.save()
