@@ -56,7 +56,7 @@ class usercontroller{
             }
             
             }else{console.log('user not found')
-                res.status(404).json({message:'User Not Found'})
+                res.json({message:'User Not Found'})
             }
 
 
@@ -290,7 +290,7 @@ class usercontroller{
                 console.log("CART",userresult.cart)
                 let mailOptions={
                     from:{
-                        name:'JCourse',
+                        name:'X SHOP',
                         address:'joshua00521202021@msijanakpuri.com'
                     },
                     to:email,
@@ -353,7 +353,7 @@ class usercontroller{
                     console.log("user data saved")
                     let mailOptions={
                         from:{
-                            name:'JCourse',
+                            name:'X SHOP',
                             address:'joshua00521202021@msijanakpuri.com'
                         },
                         to:email,

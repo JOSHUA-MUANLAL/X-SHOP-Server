@@ -142,7 +142,7 @@ class dealercontroller{
                     console.log("4)db saved")
                     let mailOptions={
                       from:{
-                          name:'JCourse',
+                          name:'X SHOP',
                           address:'joshua00521202021@msijanakpuri.com'
                       },
                       to:email,
