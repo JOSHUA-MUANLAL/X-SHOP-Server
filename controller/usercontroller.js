@@ -51,12 +51,12 @@ class usercontroller{
                 res.status(200).json({token})
 
             }else{
-                res.json({message:"No user found"})
+                res.status(404).json({message:"Password incorrect"})
                 
             }
             
             }else{console.log('user not found')
-                res.json({message:'User Not Found'})
+                res.status(404).json({message:'User Not Found'})
             }
 
 

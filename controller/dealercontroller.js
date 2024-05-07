@@ -73,14 +73,16 @@ class dealercontroller{
                     console.log("3)Token signed");
                     res.status(200).json({token})
                 }else{console.log("user not found")
-                    resjson({message:"Incorrect Password"})
+                    res.status(404).json({message:"Incorrect Password"})
                 }
             }else{
-                res.json({message:"User not Found"})
+                res.status(404).json({message:"User not Found"})
             }
 
         }catch(error){
+            
             console.error(error)
+            res.status(404).json({message:"User not Found"})
         }
     }
 
