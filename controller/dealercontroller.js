@@ -189,6 +189,22 @@ class dealercontroller{
         }
     }
 
+    async removeproduct(req,res){
+        try{
+            product_id=req.body.product_id;
+            let result=await ItemModel.deleteOne({product_id:product_id})
+    
+            if(result){
+                res.status(200).json({message:'Remove success'})
+            }else{
+                res.json({message:"Failed to Remove"})
+            }
+        }catch(error){
+            console.log(error)
+        }
+  
+    }
+
 
 
 

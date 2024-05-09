@@ -55,4 +55,8 @@ router.get('/getdealerproductdetail',authentication,async(req,res)=>{
     await dealercontroller.getproductdetail(req,res)
 })
 
+router.post('/removeproduct',authentication,async(req,res)=>{
+    await dealercontroller.removeproduct(req,res)
+})
+
 module.exports=router;
