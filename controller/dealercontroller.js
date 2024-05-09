@@ -17,7 +17,7 @@ class dealercontroller{
             let email=req.userdetail.email,name=req.userdetail.name;
             let re=await DealerModel.findOne({dealer_email:email})
 
-            let product_name=req.body.productname,product_quantity=req.body.quantity,product_type=req.body.product_type,product_price=req.body.product_price;
+            let product_name=req.body.productname,product_quantity=req.body.product_quantity,product_type=req.body.product_type,product_price=req.body.product_price;
             let uniqueProductId = uuidv4();
             let result=new ItemModel({
                 product_id:uniqueProductId,
