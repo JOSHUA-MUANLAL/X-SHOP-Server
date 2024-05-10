@@ -27,15 +27,12 @@ app.use(cors());
 app.post('/sentotp',async (req,res)=>{
     try{
         const email=req.body.email;
-        const role=req.body.role;
-        let result;
-    if(role=='user'){
-        result=await UserModel.findOne({userEmail:email})
-    }else{
-        result=await DealerModel.findOne({dealer_email:email})
-    }
+      
+        const userExists = await UserModel.findOne({ userEmail: email });
+        const dealerExists = await DealerModel.findOne({ dealer_email: email });
+  
 
-    if(!result){
+    if(!userExist && !dealerExists){
       const otp=Math.floor(Math.random() * 900000) + 100000;
 
       let mailOptions={
