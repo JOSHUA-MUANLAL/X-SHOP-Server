@@ -37,7 +37,7 @@ app.post('/sentotp',async (req,res)=>{
 
       let mailOptions={
         from:{
-            name:'JCourse',
+            name:'X SHOP',
             address:'joshua00521202021@msijanakpuri.com'
         },
         to:email,
