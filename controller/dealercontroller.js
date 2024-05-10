@@ -191,7 +191,7 @@ class dealercontroller{
 
     async removeproduct(req,res){
         try{
-            product_id=req.body.pid;
+            let product_id=req.body.product_id;
             let result=await ItemModel.deleteOne({product_id:product_id})
     
             if(result){
