@@ -65,7 +65,7 @@ app.post('/resetotp',async (req,res)=>{
       const dealerExists = await DealerModel.findOne({ dealer_email: email });
 
 
-  if(userExist || dealerExists){
+  if(userExists || dealerExists){
     const otp=Math.floor(Math.random() * 900000) + 100000;
 
     let mailOptions={
