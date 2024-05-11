@@ -36,7 +36,7 @@ class usercontroller{
             if(result){
                 console.log("user found")
                 
-            let passwordcompare=bcrypt.compare(password,result.password)
+            let passwordcompare=await bcrypt.compare(password,result.password)
 
             if(passwordcompare){
                 console.log(passwordcompare)
