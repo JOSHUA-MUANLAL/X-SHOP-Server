@@ -39,7 +39,7 @@ class usercontroller{
             let passwordcompare=bcrypt.compare(password,result.password)
 
             if(passwordcompare){
-                console.log("password correct")
+                console.log(passwordcompare)
 
                 const userPayload={
                     name:result.userName,
