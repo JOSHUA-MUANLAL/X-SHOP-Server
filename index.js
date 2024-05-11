@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const secretKey = 'joshua';
 const sendmail=require('./middleware/sendmail')
-
+const bcrypt=require('bcrypt')
 
 const dealerroute=require('./routes/dealer')
 const userroute=require('./routes/users')
