@@ -51,12 +51,12 @@ class usercontroller{
                 res.status(200).json({token})
 
             }else{
-                res.status(404).json({message:"Password incorrect"})
+                res.status(201).json({message:"Password incorrect"})
                 
             }
             
             }else{console.log('user not found')
-                res.status(404).json({message:'User Not Found'})
+                res.status(201).json({message:'User Not Found'})
             }
 
 
@@ -82,7 +82,7 @@ class usercontroller{
                 console.log("User Data fetched")
                 res.status(200).json(result)
             }else{
-                res.status(404).json({message:"Unable to fetch user data"})
+                res.status(201).json({message:"Unable to fetch user data"})
             }
         }catch(error){
             console.log(error)
@@ -112,7 +112,7 @@ class usercontroller{
 
               res.status(200).json(matchingItems);
            }else{
-            res.status(404).json({message:"Didnt found the Searched item"})
+            res.status(201).json({message:"Didnt found the Searched item"})
            }
 
 
@@ -330,6 +330,7 @@ class usercontroller{
             let check=await UserModel.findOne({userEmail:email})
 
             if(check){
+                res.status(201).json({message:"User Already Existed"})
 
             }else{
                 const saltRounds=10;

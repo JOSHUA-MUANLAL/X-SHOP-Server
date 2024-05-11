@@ -73,10 +73,10 @@ class dealercontroller{
                     console.log("3)Token signed");
                     res.status(200).json({token})
                 }else{console.log("user not found")
-                    res.status(404).json({message:"Incorrect Password"})
+                    res.status(201).json({message:"Incorrect Password"})
                 }
             }else{
-                res.status(404).json({message:"User not Found"})
+                res.status(201).json({message:"User not Found"})
             }
 
         }catch(error){
@@ -95,7 +95,7 @@ class dealercontroller{
             if(result){
                 res.status(200).json(result)
             }else{
-                res.status(404).json({message:"No product"})
+                res.status(201).json({message:"No product"})
             }
 
 
@@ -159,7 +159,7 @@ class dealercontroller{
                 })
                 .catch(error=>{
                     console.log(error)
-                    res.status(404).json({message:"Failed to register"})
+                    res.status(201).json({message:"Failed to register"})
                 })
 
             }
@@ -181,7 +181,7 @@ class dealercontroller{
                 res.status(200).json(result)
             }else{
                 console.log("No dealer data found")
-                res.status(404).json({message:'No dealer data found'})
+                res.status(201).json({message:'No dealer data found'})
             }
 
         }catch(error){
