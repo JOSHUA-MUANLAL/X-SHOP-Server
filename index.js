@@ -56,6 +56,74 @@ app.post('/sentotp',async (req,res)=>{
         console.log(error)
     }
 })
+
+app.post('/resetotp',async (req,res)=>{
+  try{
+      const email=req.body.email;
+    
+      const userExists = await UserModel.findOne({ userEmail: email });
+      const dealerExists = await DealerModel.findOne({ dealer_email: email });
+
+
+  if(userExist || dealerExists){
+    const otp=Math.floor(Math.random() * 900000) + 100000;
+
+    let mailOptions={
+      from:{
+          name:'X SHOP',
+          address:'joshua00521202021@msijanakpuri.com'
+      },
+      to:email,
+      subject:'One Time Password',
+      text:'Passsword OTP',
+      html:`<b>Dear User ${email}<br> Your OTP for Password Reset is ${otp} </b>`
+            }
+      sendmail(mailOptions)
+      res.status(200).json({otp:otp})
+
+  }else{
+    res.status(201).json({message:"Email Not Found"})
+  }
+
+  }catch(error){
+      console.log(error)
+  }
+})
+
+
+
+app.post('/resetpassword',async(req,res)=>{
+  try{
+    let email=req.body.email;
+    let password=req.body.password;
+
+    const saltRounds=10;
+    const hashedPassword=await bcrypt.hash(password, saltRounds)
+
+    users=await UserModel.findOne({userEmail:email})
+    dealers=await DealerModel.findOne({dealer_email:email})
+
+    if(users){
+      users.password=hashedPasswordpassword;
+      await users.save()
+      res.json(200).json({message:'Reset password'})
+
+    }else if(dealers){
+      dealerroute.password=hashedPasswordpassword;
+      await dealers.save()
+      res.json(200).json({message:'Reset password'})
+    }else{
+      res.json({message:"Email Invalid"})
+    }
+
+  }catch(error){
+    console.log(error)
+    res.json({message:error})
+  }
+})
+
+
+
 app.get('/', (req, res) => {
     res.redirect('https://joshua-muanlal.github.io/X-SHOP-frontend/'); // External redirect
     // If you meant to redirect within your app, adjust the path accordingly
