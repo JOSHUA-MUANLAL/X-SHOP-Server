@@ -16,6 +16,7 @@ class dealercontroller{
         try{
             let email=req.userdetail.email,name=req.userdetail.name;
             let re=await DealerModel.findOne({dealer_email:email})
+            let product_description=req.body.product_description;
 
             let product_name=req.body.productname,product_quantity=req.body.product_quantity,product_type=req.body.product_type,product_price=req.body.product_price;
             let uniqueProductId = uuidv4();
@@ -27,6 +28,7 @@ class dealercontroller{
                 item_name:product_name,
                 item_price:product_price,
                 item_quantity:product_quantity,
+                description:product_description,
                 images:newImages,
                 company:re.company_name,
                 address:re.address

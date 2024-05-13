@@ -13,6 +13,7 @@ try{
         item_quantity:Number,
         company:String,
         address:String,
+        description:String,
         images: [
             {
               imageData: { type: String, required: true },
