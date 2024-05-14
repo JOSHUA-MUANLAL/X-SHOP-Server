@@ -74,7 +74,7 @@ app.post('/resetotp',async (req,res)=>{
           address:'joshua00521202021@msijanakpuri.com'
       },
       to:email,
-      subject:'One Time Password',
+      subject:'One Time Password for Password reset',
       text:'Passsword OTP',
       html:`<b>Dear User ${email}<br> Your OTP for Password Reset is ${otp} </b>`
             }

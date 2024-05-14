@@ -14,9 +14,6 @@ try{
       });
       
       
-      
-      
-      
       // Create the User model
       const DealerModel = connection.model('dealerdata', dealerSchema);
       console.log("connected",DealerModel);
