@@ -104,12 +104,12 @@ app.post('/resetpassword',async(req,res)=>{
     dealers=await DealerModel.findOne({dealer_email:email})
 
     if(users){
-      users.password=hashedPasswordpassword;
+      users.password=hashedPassword;
       await users.save()
       res.json(200).json({message:'Reset password'})
 
     }else if(dealers){
-      dealerroute.password=hashedPasswordpassword;
+      dealer.password=hashedPassword;
       await dealers.save()
       res.json(200).json({message:'Reset password'})
     }else{
